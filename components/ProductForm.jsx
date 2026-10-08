@@ -16,6 +16,7 @@ export default function ProductForm({ onSubmit }) {
       ...sample,
       id: crypto.randomUUID(),
       title,
+      url: String(fields.get("url") || "").trim(),
       price: Number(fields.get("price")),
       appeal: String(fields.get("appeal")).trim(),
       analysis: "등록한 상품의 사진과 가격만으로 품질을 판단하기는 어려워요.\n구매 전 실제 사양과 후기를 함께 확인해 보세요.\n지금 꼭 필요한 상품인지 생각해 보는 것도 좋아요.",
@@ -24,8 +25,10 @@ export default function ProductForm({ onSubmit }) {
 
   return (
     <form className="product-form" onSubmit={submit}>
-      <h2 id="add-product-title">상품 추가</h2>
-      <p className="description">갖고 싶은 상품을 위시리스트에 담아보세요.</p>
+      <h2 id="add-product-title">링크로 추가하기</h2>
+      <p className="description">상품 이름과 가격은 직접 입력해 주세요.</p>
+      <label htmlFor="new-product-url">상품 링크</label>
+      <input id="new-product-url" name="url" type="url" placeholder="https://..." pattern="https?://.+" title="http:// 또는 https://로 시작하는 상품 링크를 입력해 주세요." required />
       <fieldset className="product-image-options">
         <legend>샘플 사진 선택</legend>
         <div>

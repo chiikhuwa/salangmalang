@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import IconifyIcon from "./IconifyIcon";
 
-export default function Modal({ titleId, onClose, children, className = "" }) {
+export default function Modal({ titleId, onClose, children, className = "", showClose = true }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -35,9 +35,11 @@ export default function Modal({ titleId, onClose, children, className = "" }) {
         if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) onClose();
       }}
     >
-      <button type="button" className="modal-close" aria-label="모달 닫기" onClick={onClose} autoFocus>
-        <IconifyIcon name="close" size={20} />
-      </button>
+      {showClose && (
+        <button type="button" className="modal-close" aria-label="모달 닫기" onClick={onClose} autoFocus>
+          <IconifyIcon name="close" size={20} />
+        </button>
+      )}
       {children}
     </dialog>
   );
