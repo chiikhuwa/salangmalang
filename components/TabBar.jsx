@@ -1,25 +1,25 @@
 "use client";
 
-import { House, LayoutGrid, Settings } from "lucide-react";
+import IconifyIcon from "./IconifyIcon";
 
 const tabs = [
-  { id: "home", label: "홈", icon: House },
-  { id: "tab2", label: "탭2", icon: LayoutGrid },
-  { id: "settings", label: "설정", icon: Settings },
+  { id: "home", label: "홈", icon: "home" },
+  { id: "medal", label: "메달", icon: "medal" },
+  { id: "profile", label: "프로필", icon: "profile" },
 ];
 
 export default function TabBar({ activeTab, onChange }) {
   return (
     <nav className="tab-bar" aria-label="하단 메뉴">
-      {tabs.map(({ id, label, icon: Icon }) => (
+      {tabs.map(({ id, label, icon }) => (
         <button
           key={id}
           type="button"
+          aria-label={label}
           aria-current={activeTab === id ? "page" : undefined}
           onClick={() => onChange(id)}
         >
-          <Icon size={22} strokeWidth={1.8} aria-hidden="true" />
-          <span>{label}</span>
+          <IconifyIcon name={icon} size={22} />
         </button>
       ))}
     </nav>
