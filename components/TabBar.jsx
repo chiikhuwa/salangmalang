@@ -4,7 +4,6 @@ import IconifyIcon from "./IconifyIcon";
 
 const tabs = [
   { id: "home", label: "홈", icon: "home" },
-  { id: "medal", label: "메달", icon: "medal" },
   { id: "profile", label: "프로필", icon: "profile" },
 ];
 

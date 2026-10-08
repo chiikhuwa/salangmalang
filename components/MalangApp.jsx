@@ -9,6 +9,8 @@ import IconifyIcon from "./IconifyIcon";
 import Modal from "./Modal";
 import ProductDetails from "./ProductDetails";
 import ProductForm from "./ProductForm";
+import AddProductOptions from "./AddProductOptions";
+import VoteScreen from "./VoteScreen";
 import { sampleProducts } from "../lib/sampleProducts";
 
 export default function DemoApp({ signedInUser, isDemo, loginReady, error }) {
@@ -17,19 +19,13 @@ export default function DemoApp({ signedInUser, isDemo, loginReady, error }) {
   const [collection, setCollection] = useState("wishlist");
   const [products, setProducts] = useState(sampleProducts);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [addingProduct, setAddingProduct] = useState(false);
-  const [votedIds, setVotedIds] = useState([]);
+  const [addStep, setAddStep] = useState(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(error ? "로그인이 완료되지 않았어요. 다시 시도해 주세요." : "");
   const demoUser = isDemo ? { name: "데모", email: "demo@example.com", demo: true } : null;
   const user = signedInUser || demoUser;
 
-  const visibleProducts = collection === "wishlist" ? products : [...sampleProducts].reverse();
-  const votedProducts = sampleProducts.filter((product) => votedIds.includes(product.id));
-
-  function toggleVote(productId) {
-    setVotedIds((ids) => ids.includes(productId) ? ids.filter((id) => id !== productId) : [...ids, productId]);
-  }
+  const isVoteScreen = Boolean(user && activeTab === "home" && collection === "vote");
 
   function changeCollection(nextCollection) {
     setCollection(nextCollection);
@@ -38,7 +34,7 @@ export default function DemoApp({ signedInUser, isDemo, loginReady, error }) {
 
   function addProduct(product) {
     setProducts((items) => [...items, product]);
-    setAddingProduct(false);
+    setAddStep(null);
   }
 
   async function login() {
@@ -72,7 +68,7 @@ export default function DemoApp({ signedInUser, isDemo, loginReady, error }) {
   }
 
   return (
-    <main className={`app malang-app ${user ? "with-tabs" : ""}`}>
+    <main className={`app malang-app ${user ? "with-tabs" : ""} ${isVoteScreen ? "vote-mode" : ""}`}>
       <header className="brand-header">
         <img src="/logo.png" alt="살랑말랑" className="brand-logo" width="320" height="320" />
         {user && activeTab === "home" && (
@@ -105,42 +101,26 @@ export default function DemoApp({ signedInUser, isDemo, loginReady, error }) {
       {user ? (
         <>
           <section className="content app-content" key={activeTab}>
-            {activeTab === "home" && (
+            {activeTab === "home" && collection === "wishlist" && (
               <div
                 className="home-screen"
                 role="tabpanel"
                 id={`collection-panel-${collection}`}
                 aria-labelledby={`collection-tab-${collection}`}
               >
-                <div className="wishlist-grid" aria-label={collection === "wishlist" ? "내 위시리스트 상품" : "투표할 샘플 상품"}>
-                  {visibleProducts.map((product) => (
+                <div className="wishlist-grid" aria-label="내 위시리스트 상품">
+                  {products.map((product) => (
                     <WishlistItem key={product.id} product={product} onSelect={setSelectedProduct} />
                   ))}
                 </div>
-                {collection === "wishlist" ? (
-                  <button type="button" className="add-product" aria-label="상품 추가" aria-haspopup="dialog" onClick={() => setAddingProduct(true)}>
-                    <IconifyIcon name="plus" size={24} />
-                  </button>
-                ) : (
-                  <p className="vote-hint">상품을 눌러 마음에 드는 아이템에 투표해 주세요.</p>
-                )}
-                <img className="wishlist-cart" src="/cart.png" alt="위시리스트 상품을 담을 옆모습의 쇼핑 카트" width="1200" height="810" />
+                <button type="button" className="add-product" aria-label="상품 추가" aria-haspopup="dialog" onClick={() => setAddStep("choose")}>
+                  <IconifyIcon name="plus" size={24} />
+                </button>
+                <img className="wishlist-cart" src="/cart.png" alt="위시리스트 상품을 담을 옆모습의 쇼핑 카트" width="1400px" height="1400px" />
               </div>
             )}
-            {activeTab === "medal" && (
-              <div className="account-screen">
-                <div className="section-icon"><IconifyIcon name="medal" size={36} /></div>
-                <h1>나의 투표</h1>
-                <p className="description">마음에 들어 응원한 상품을 모았어요.</p>
-                {votedProducts.length ? (
-                  <div className="wishlist-grid" aria-label="투표한 상품">
-                    {votedProducts.map((product) => <WishlistItem key={product.id} product={product} onSelect={setSelectedProduct} />)}
-                  </div>
-                ) : (
-                  <p className="empty-message">아직 투표한 상품이 없어요.</p>
-                )}
-                <button type="button" className="secondary" onClick={() => { setActiveTab("home"); changeCollection("vote"); }}>투표하러 가기</button>
-              </div>
+            {isVoteScreen && (
+              <VoteScreen product={products[0]} nextProduct={products[1] ?? products[0]} />
             )}
             {activeTab === "profile" && (
               <div className="account-screen">
@@ -162,14 +142,14 @@ export default function DemoApp({ signedInUser, isDemo, loginReady, error }) {
             <ProductDetails
               product={selectedProduct}
               onClose={() => setSelectedProduct(null)}
-              voting={activeTab === "home" && collection === "vote"}
-              voted={votedIds.includes(selectedProduct.id)}
-              onVote={() => toggleVote(selectedProduct.id)}
             />
           )}
-          {addingProduct && (
-            <Modal titleId="add-product-title" onClose={() => setAddingProduct(false)}>
-              <ProductForm onSubmit={addProduct} />
+          {addStep === "choose" && (
+            <AddProductOptions onSelect={setAddStep} onClose={() => setAddStep(null)} />
+          )}
+          {(addStep === "link" || addStep === "image") && (
+            <Modal titleId="add-product-title" onClose={() => setAddStep(null)}>
+              <ProductForm method={addStep} onSubmit={addProduct} />
             </Modal>
           )}
         </>

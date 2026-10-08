@@ -1,7 +1,8 @@
 # Demo assets
 
 - `logo.png`: logo supplied in the repository root by the project owner.
-- Icon paths: [Solar icons by 480 Design](https://icon-sets.iconify.design/solar/), via Iconify, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Bundled in `components/IconifyIcon.jsx`.
+- Home, profile, link and image icon paths: [Tabler Icons](https://icon-sets.iconify.design/tabler/), via Iconify, [MIT License](https://github.com/tabler/tabler-icons/blob/main/LICENSE). Bundled in `components/IconifyIcon.jsx`.
+- Font: [Pretendard v1.3.9 by Kil Hyung-jin](https://github.com/orioncactus/pretendard), self-hosted in `app/fonts/`, [SIL Open Font License 1.1](../app/fonts/OFL.txt).
 - `cart.png`: [Shopping cart PNG61, pngimg.com](https://pngimg.com/image/28869), [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Non-commercial demo asset; replace with a commercially licensed image before commercial use.
 - Product photos: Unsplash, downloaded and cropped for the demo under the [Unsplash License](https://unsplash.com/license). These are illustrative photos, not verified product listings.
   - Laptop: https://images.unsplash.com/photo-1517336714731-489689fd1ca8

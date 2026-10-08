@@ -1,7 +1,7 @@
 import { formatPrice, productTags } from "../lib/sampleProducts";
 import Modal from "./Modal";
 
-export default function ProductDetails({ product, onClose, voting, voted, onVote }) {
+export default function ProductDetails({ product, onClose }) {
   return (
     <Modal titleId="product-title" onClose={onClose}>
       <div className="product-modal-image" style={{ backgroundColor: product.background }}>
@@ -13,17 +13,12 @@ export default function ProductDetails({ product, onClose, voting, voted, onVote
         <p className="product-prompt">이 상품의 매력을 한 줄로 어필해주세요!</p>
         {product.appeal && <p className="product-appeal">{product.appeal}</p>}
         <div className="product-tags" aria-label="상품 매력">
-          {productTags.map((tag) => <span key={tag}>{tag}</span>)}
+          {(product.tags ?? productTags).map((tag) => <span key={tag}>{tag}</span>)}
         </div>
         <section className="product-ai" aria-labelledby="product-ai-title">
           <h3 id="product-ai-title">AI는 이렇게 말했어요</h3>
           <p>{product.analysis}</p>
         </section>
-        {voting && (
-          <button type="button" className="primary product-vote" aria-pressed={voted} onClick={onVote}>
-            {voted ? "투표 취소하기" : "이 상품에 투표하기"}
-          </button>
-        )}
       </div>
     </Modal>
   );
