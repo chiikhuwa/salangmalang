@@ -10,7 +10,10 @@ export default function AddProductOptions({ onSelect, onClose }) {
           <IconifyIcon name="link" size={20} />
           <span>링크로 추가하기</span>
         </button>
-        <button type="button" onClick={() => onSelect("image")}>
+        <button type="button" onClick={(event) => {
+          event.currentTarget.closest("dialog")?.close();
+          onSelect("image");
+        }}>
           <IconifyIcon name="image" size={20} />
           <span>이미지로 추가하기</span>
         </button>

@@ -3,7 +3,7 @@ import Modal from "./Modal";
 
 export default function ProductDetails({ product, onClose }) {
   return (
-    <Modal titleId="product-title" onClose={onClose}>
+    <Modal titleId="product-title" className="product-detail-modal" onClose={onClose}>
       <div className="product-modal-image" style={{ backgroundColor: product.background }}>
         <img src={product.image} alt={product.title} width="800" height="800" />
       </div>

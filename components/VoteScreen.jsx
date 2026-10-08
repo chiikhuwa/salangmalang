@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { formatPrice, productTags } from "../lib/sampleProducts";
 
-function VoteCard({ product }) {
+function VoteCard({ product, choice }) {
   return (
-    <article className="vote-card">
+    <article className="vote-card" data-choice={choice || undefined}>
       <img className="vote-thumbnail" src={product.image} alt={product.title} width="800" height="800" />
       <div className="vote-card-info">
         <h2>{product.title}</h2>
@@ -24,11 +24,12 @@ export default function VoteScreen({ product, nextProduct }) {
   return (
     <div className="vote-screen" role="tabpanel" id="collection-panel-vote" aria-labelledby="collection-tab-vote">
       <div className="vote-stack">
+        <img src="/logo.png" alt="살랑말랑" className="vote-logo" width="320" height="320" />
         <h1 className="vote-title">이 물건, <span className="salang-color">살랑가</span> <span className="malang-color">말랑가</span>?</h1>
-        <VoteCard product={product} />
+        <VoteCard product={product} choice={choice} />
         <div className="vote-actions" role="group" aria-label="상품 의견">
-          <button type="button" className="vote-salang" aria-pressed={choice === "salang"} onClick={() => setChoice(choice === "salang" ? null : "salang")}>살랑</button>
-          <button type="button" className="vote-malang" aria-pressed={choice === "malang"} onClick={() => setChoice(choice === "malang" ? null : "malang")}>말랑</button>
+          <button type="button" className="vote-salang" aria-pressed={choice === "salang"} onClick={() => setChoice("salang")}>살랑</button>
+          <button type="button" className="vote-malang" aria-pressed={choice === "malang"} onClick={() => setChoice("malang")}>말랑</button>
         </div>
         <div className="vote-next" aria-hidden="true">
           <VoteCard product={nextProduct} />

@@ -6,9 +6,9 @@ import { House, LayoutGrid, Settings } from "lucide-react";
 import { completeOnboarding } from "../app/onboarding/actions";
 
 const steps = [
-  { title: "기능1", description: "홈에서 내 프로필과 계정 정보를 확인해요.", icon: House },
-  { title: "기능2", description: "두 번째 탭에서 새로운 기능을 만나보세요.", icon: LayoutGrid },
-  { title: "기능3", description: "설정에서 연결된 계정을 확인하고 로그아웃할 수 있어요.", icon: Settings },
+  { title: "제품을 이미지로 등록해요", description: "내 위시리스트에 살까 말까 고민되는 제품을 올려주세요.", icon: House },
+  { title: "다른 유저가 구매 여부를 투표해요", description: "살랑, 또는 말랑 버튼을 눌러서 합리적인 소비에 투표해요!", icon: LayoutGrid },
+  { title: "합리적인 소비로 채워가요", description: "기록이 쌓일수록 나의 소비는 더 합리적으로 변할 거에요.", icon: Settings },
 ];
 
 export default function Onboarding({ isDemo }) {
@@ -46,7 +46,7 @@ export default function Onboarding({ isDemo }) {
 
   return (
     <main className="app">
-      <header className="header">DemoApp</header>
+      <header className="header">살랑말랑을 소개할게요</header>
       <section className="content">
         <div
           className="step-indicator"
